@@ -64,3 +64,12 @@ os.makedirs("data", exist_ok=True)
 data_cleaned.to_csv("data/net_worth_data_cleaned.csv", index=False)
 
 print("\nCleaned data saved to 'data/net_worth_data_cleaned.csv'")
+
+print("\nCORRELATION WITH NET WORTH")
+print(
+    data_cleaned.corr(numeric_only=True)["Net Worth"]
+    .sort_values(ascending=False)
+)
+
+print("\nNET WORTH SUMMARY")
+print(data_cleaned["Net Worth"].describe())
