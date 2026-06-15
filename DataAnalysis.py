@@ -3,34 +3,38 @@ import numpy as np
 import os
 
 # Load data
-data = pd.read_excel("data/Net_Worth_Data-1.xlsx")
+DATA_PATH = "data/Net_Worth_Data-1.xlsx"
+
+
+def load_data():
+    return pd.read_excel(DATA_PATH)
+
+
+def clean_data(data):
+    data = data.dropna()
+    data = data.drop_duplicates()
+
+    data = data.drop(columns=[
+        "Client Name",
+        "Client e-mail",
+        "Country"
+    ], errors="ignore")
+
+    return data
 
 # Data Analysis
-print("FIRST 5 ROWS")
-print(data.head())
-
-print("LAST 5 ROWS")
-print(data.tail())
-
-print("SHAPE")
-print(data.shape)
-print(data.shape[0])  # Number of rows
-print(data.shape[1])  # Number of columns
-
-print("COLUMN NAMES")
-print(data.columns.tolist())
-
-print("MISSING VALUES")
-print(data.isnull().sum())
-
-print("DUPLICATES")
-print(data.duplicated().sum())
-
-print("DATASET INFO")
-data.info()
-
-print("\nSTATISTICAL SUMMARY")
-print(data.describe())
+def analyze(data):
+    return {
+        "shape": data.shape,
+        "missing": data.isnull().sum().sum(),
+        "duplicates": data.duplicated().sum(),
+        "columns": data.columns.tolist(),
+        "summary": data.describe()
+    }
+    
+if __name__ == "__main__":
+    data = load_data()
+    print(data.head())
 
 # Cleaning Data
 before_rows = data.shape[0]

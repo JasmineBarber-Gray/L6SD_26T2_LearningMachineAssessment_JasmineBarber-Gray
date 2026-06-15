@@ -1,5 +1,10 @@
-from TrainModel import train_models
+import sys
+import os
 import numpy as np
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+from TrainModel import train_models
 
 # Train once for testing
 model, scaler, features = train_models()
