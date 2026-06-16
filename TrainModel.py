@@ -11,6 +11,10 @@ from sklearn.linear_model import LinearRegression
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, r2_score, mean_squared_error
+from sklearn.linear_model import Ridge, Lasso
+from sklearn.svm import SVR
+from sklearn.exceptions import NotFittedError
+from sklearn.ensemble import GradientBoostingRegressor
 
 # Load cleaned data
 data = pd.read_csv("data/net_worth_data_cleaned.csv")
@@ -20,7 +24,7 @@ features = [
     "Age",
     "Income",
     "Credit Card Debt",
-    "Stocks",
+    "Inherited Amount",
     "Mutual Funds"
 ]
 
@@ -43,7 +47,11 @@ X_test_scaled = scaler.transform(X_test)
 models = {
     "Linear Regression": LinearRegression(),
     "Decision Tree": DecisionTreeRegressor(max_depth=6, random_state=42),
-    "Random Forest": RandomForestRegressor(n_estimators=150, random_state=42)
+    "Random Forest": RandomForestRegressor(n_estimators=150, random_state=42),
+    "Gradient Boosting": GradientBoostingRegressor(n_estimators=150, learning_rate=0.1, random_state=42),
+    "Ridge Regression": Ridge(alpha=1.0, random_state=42),
+    "Lasso Regression": Lasso(alpha=0.1, random_state=42),
+    "Support Vector Regressor": SVR(kernel="rbf", C=100, gamma=0.1, epsilon=.1)
 }
 
 results = {}
@@ -51,7 +59,7 @@ results = {}
 # Train and evaluate each model
 for name, model in models.items():
 
-    if name == "Linear Regression":
+    if name == "Ridge Regression":
         model.fit(X_train_scaled, y_train)
         preds = model.predict(X_test_scaled)
     else:
